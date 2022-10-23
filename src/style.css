@@ -1,4 +1,53 @@
-:root {
+html, body, p {
+  background-color: black;
+  margin: 0;
+}
+
+canvas {
+  image-rendering: pixelated;
+  outline: 1px solid lightgrey;
+  /* border-radius: 4px; */
+}
+
+.small {
+  scale: 1
+}
+
+.medium {
+  scale: 2
+}
+
+.large {
+  scale: 3;
+}
+
+.extralarge {
+  scale: 4;
+}
+
+button {
+  background-color: gray;
+  position: absolute;
+  padding: 1em 1.75em;
+  border: none;
+  border-radius: 4px;
+  right: 10px;
+  top: 10px;
+  color: white;
+}
+
+button:hover {
+  background-color: #b6b5b5;
+}
+
+.canvas-wrapper {
+  display: grid;
+  justify-content: center;
+  align-content: center;
+  height: 100vh;
+}
+
+/* :root {
   font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
   font-size: 16px;
   line-height: 24px;
@@ -37,6 +86,33 @@ h1 {
   line-height: 1.1;
 }
 
+#app {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.vanilla:hover {
+  filter: drop-shadow(0 0 2em #3178c6aa);
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
 button {
   border-radius: 8px;
   border: 1px solid transparent;
@@ -56,17 +132,6 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-.card {
-  padding: 2em;
-}
-
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-}
-
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
@@ -78,4 +143,4 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
-}
+} */
