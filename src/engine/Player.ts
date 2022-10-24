@@ -35,7 +35,25 @@ export default class Player extends Entity {
     }
   }
 
-  collision() {
+  update() {
+    this.controls()
+    this.currenctPos()
+    this.wallCollision()
+
+    this.normalised = {
+      x: this.position.x + this.width / 2,
+      y: this.position.y + this.height / 2,
+    }
+  }
+
+  currenctPos() {
+    if (this.position.x < 0 || this.position.x > 128)
+      return
+    this.position.x += this.vx
+    this.position.y += this.vy
+  }
+
+  wallCollision() {
     if (this.position.x >= 128 - this.width)
       this.position.x = 128 - this.width
 
@@ -89,5 +107,22 @@ export default class Player extends Entity {
           this.keys.s.pressed = false
       }
     })
+  }
+
+  controls() {
+    this.vx = 0
+    this.vy = 0
+
+    if (this.keys.d.pressed)
+      this.vx = 1
+
+    else if (this.keys.a.pressed)
+      this.vx = -1
+
+    else if (this.keys.w.pressed)
+      this.vy = -1
+
+    else if (this.keys.s.pressed)
+      this.vy = 1
   }
 }
