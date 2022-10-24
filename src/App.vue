@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { gameLoop } from './engine/Engine'
-import type Entity from './engine/Entity'
+import Entity from './engine/Entity'
 import Player from './engine/Player'
 
 let gameObjects: Array<Entity>
@@ -10,6 +10,26 @@ const canvasEl = ref<HTMLCanvasElement>()
 
 function createWorld() {
   gameObjects = [
+    new Entity({
+      position: { x: 70, y: 40 },
+      width: 16,
+      height: 16,
+      context,
+      row: (0 * 16),
+      frame: 0,
+      src: 'src/assets/sprite.png',
+
+    }),
+    new Entity({
+      position: { x: 47, y: 20 },
+      width: 16,
+      height: 16,
+      context,
+      row: (0 * 16),
+      frame: 0,
+      src: 'src/assets/sprite.png',
+
+    }),
     new Player({
       position: { x: 10, y: 10 },
       width: 16,

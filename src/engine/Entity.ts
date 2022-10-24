@@ -13,5 +13,9 @@ export default class Entity extends Sprite {
   }
 
   update() {
+    this.normalised = {
+      x: this.position.x + this.width / 2,
+      y: this.position.y + this.height / 2,
+    }
   }
 }
