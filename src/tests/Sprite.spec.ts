@@ -18,8 +18,8 @@ describe('Sprite tests', () => {
 
     expect(object.height).toEqual(16)
     expect(object.width).toEqual(16)
-    expect(object.position.x).toEqual(5 - 16 / 2)
-    expect(object.position.y).toEqual(5 - 16 / 2)
+    expect(object.position.x).toEqual(5)
+    expect(object.position.y).toEqual(5)
 
     expect(object.context).toBeTruthy()
     expect(object.context.canvas).toBeTruthy()
