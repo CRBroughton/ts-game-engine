@@ -14,6 +14,7 @@ interface Keys {
 
 export default class Player extends Entity {
   keys: Keys
+  held: string
   constructor(config: SpriteConfig) {
     super(config)
 
@@ -33,6 +34,8 @@ export default class Player extends Entity {
         pressed: false,
       },
     }
+
+    this.held = ''
   }
 
   update() {
@@ -73,18 +76,27 @@ export default class Player extends Entity {
         case 'a':
         case 'ArrowLeft':
           this.keys.a.pressed = true
+          if (!this.isColliding)
+            this.held = event.key
+
           break
         case 'd':
         case 'ArrowRight':
           this.keys.d.pressed = true
+          if (!this.isColliding)
+            this.held = event.key
           break
         case 'w':
         case 'ArrowUp':
           this.keys.w.pressed = true
+          if (!this.isColliding)
+            this.held = event.key
           break
         case 's':
         case 'ArrowDown':
           this.keys.s.pressed = true
+          if (!this.isColliding)
+            this.held = event.key
       }
     })
 
@@ -113,16 +125,33 @@ export default class Player extends Entity {
     this.vx = 0
     this.vy = 0
 
-    if (this.keys.d.pressed)
+    if (this.keys.d.pressed) {
+      if (this.isColliding && this.held === 'd')
+        this.position.x = this.position.x - 1
+
       this.vx = 1
+    }
 
-    else if (this.keys.a.pressed)
+    if (this.keys.a.pressed) {
+      if (this.isColliding && this.held === 'a')
+        this.position.x = this.position.x + 1
+
       this.vx = -1
+    }
 
-    else if (this.keys.w.pressed)
+    if (this.keys.w.pressed) {
+      if (this.isColliding && this.held === 'w')
+        this.position.y = this.position.y + 1
+
       this.vy = -1
+    }
 
-    else if (this.keys.s.pressed)
+    if (this.keys.s.pressed) {
+      if (this.isColliding && this.held === 's')
+
+        this.position.y = this.position.y - 1
+
       this.vy = 1
+    }
   }
 }
