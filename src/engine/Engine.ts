@@ -5,7 +5,7 @@ import type { Intersection } from './types'
 
 export function debugEngine(
   context: CanvasRenderingContext2D,
-  entity: Entity | Player,
+  entity: Entity & Player,
 ) {
   context.font = '10px Arial'
   context.fillStyle = 'white'
@@ -14,6 +14,8 @@ export function debugEngine(
   context.fillText(`NX: ${entity.normalised.x}`, 1, 30)
   context.fillText(`NY: ${entity.normalised.y}`, 1, 40)
   context.fillText(`Colliding: ${entity.isColliding}`, 1, 50)
+  context.fillText(`Held: ${entity.held}`, 1, 60)
+  context.fillText(`CollidingSide: ${entity.collidingSide}`, 1, 70)
 }
 
 export function gameLoop(
@@ -83,8 +85,10 @@ export function detectCollisions(objects: Array<Entity | Player>) {
   let obj1
   let obj2
 
-  for (let i = 0; i < objects.length; i++)
+  for (let i = 0; i < objects.length; i++) {
     objects[i].isColliding = false
+    objects[i].collidingSide = ''
+  }
 
   for (let i = 0; i < objects.length; i++) {
     obj1 = objects[i]
@@ -95,6 +99,36 @@ export function detectCollisions(objects: Array<Entity | Player>) {
       if (rectIntersect(obj1.position.x, obj1.position.y, obj1.width, obj1.height, obj2.position.x, obj2.position.y, obj2.width, obj2.height)) {
         obj1.isColliding = true
         obj2.isColliding = true
+
+        // detects and set the side of a colliding entity
+
+        const diffx = obj1.normalised.x - obj2.normalised.x
+        const diffy = obj1.normalised.y - obj2.normalised.y
+
+        const depthX = diffx > 0 ? 16 - diffx : -16 - diffx
+        const depthY = diffy > 0 ? 16 - diffy : -16 - diffy
+
+        if (Math.abs(depthX) < Math.abs(depthY)) {
+          if (depthX > 0) {
+            obj2.collidingSide = 'right'
+            obj2.position.x = obj2.position.x - 1
+          }
+
+          if (depthX < 0) {
+            obj2.collidingSide = 'left'
+            obj2.position.x = obj2.position.x + 1
+          }
+        }
+        else {
+          if (depthY > 0) {
+            obj2.collidingSide = 'bottom'
+            obj2.position.y = obj2.position.y - 1
+          }
+          if (depthY < 0) {
+            obj2.collidingSide = 'top'
+            obj2.position.y = obj2.position.y + 1
+          }
+        }
       }
     }
   }

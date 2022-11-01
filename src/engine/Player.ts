@@ -75,28 +75,32 @@ export default class Player extends Entity {
       switch (event.key) {
         case 'a':
         case 'ArrowLeft':
-          this.keys.a.pressed = true
-          if (!this.isColliding)
+          if (!this.held) {
+            this.keys.a.pressed = true
             this.held = event.key
-
+          }
           break
         case 'd':
         case 'ArrowRight':
-          this.keys.d.pressed = true
-          if (!this.isColliding)
+          if (!this.held) {
+            this.keys.d.pressed = true
             this.held = event.key
+          }
           break
         case 'w':
         case 'ArrowUp':
-          this.keys.w.pressed = true
-          if (!this.isColliding)
+          if (!this.held) {
+            this.keys.w.pressed = true
             this.held = event.key
+          }
           break
         case 's':
         case 'ArrowDown':
-          this.keys.s.pressed = true
-          if (!this.isColliding)
+          if (!this.held) {
+            this.keys.s.pressed = true
             this.held = event.key
+          }
+          break
       }
     })
 
@@ -105,18 +109,23 @@ export default class Player extends Entity {
         case 'a':
         case 'ArrowLeft':
           this.keys.a.pressed = false
+          this.held = ''
           break
         case 'd':
         case 'ArrowRight':
           this.keys.d.pressed = false
+          this.held = ''
           break
         case 'w':
         case 'ArrowUp':
           this.keys.w.pressed = false
+          this.held = ''
           break
         case 's':
         case 'ArrowDown':
           this.keys.s.pressed = false
+          this.held = ''
+          break
       }
     })
   }
@@ -125,33 +134,16 @@ export default class Player extends Entity {
     this.vx = 0
     this.vy = 0
 
-    if (this.keys.d.pressed) {
-      if (this.isColliding && this.held === 'd')
-        this.position.x = this.position.x - 1
-
+    if (this.keys.d.pressed && this.collidingSide !== 'right')
       this.vx = 1
-    }
 
-    if (this.keys.a.pressed) {
-      if (this.isColliding && this.held === 'a')
-        this.position.x = this.position.x + 1
-
+    if (this.keys.a.pressed && this.collidingSide !== 'left')
       this.vx = -1
-    }
 
-    if (this.keys.w.pressed) {
-      if (this.isColliding && this.held === 'w')
-        this.position.y = this.position.y + 1
-
+    if (this.keys.w.pressed && this.collidingSide !== 'top')
       this.vy = -1
-    }
 
-    if (this.keys.s.pressed) {
-      if (this.isColliding && this.held === 's')
-
-        this.position.y = this.position.y - 1
-
+    if (this.keys.s.pressed && this.collidingSide !== 'bottom')
       this.vy = 1
-    }
   }
 }

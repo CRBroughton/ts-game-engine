@@ -5,11 +5,13 @@ export default class Entity extends Sprite {
   vy: number
   vx: number
   isColliding: boolean
+  collidingSide: string
   constructor(config: SpriteConfig) {
     super(config)
     this.vx = 0
     this.vy = 0
     this.isColliding = false
+    this.collidingSide = ''
   }
 
   update() {
