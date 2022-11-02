@@ -15,6 +15,10 @@ interface Keys {
 export default class Player extends Entity {
   keys: Keys
   held: string
+  elapsedFrames: number
+  currentframe: number
+  buffer: any
+  frames: number | undefined
   constructor(config: SpriteConfig) {
     super(config)
 
@@ -36,9 +40,14 @@ export default class Player extends Entity {
     }
 
     this.held = ''
+    this.elapsedFrames = 0
+    this.currentframe = 0
+    this.buffer = config.buffer
+    this.frames = config.frames
   }
 
   update() {
+    this.updateSprite()
     this.controls()
     this.currenctPos()
     this.wallCollision()
@@ -47,6 +56,35 @@ export default class Player extends Entity {
       x: this.position.x + this.width / 2,
       y: this.position.y + this.height / 2,
     }
+  }
+
+  updateSprite() {
+    if (this.keys.a.pressed) { this.animate(24) }
+
+    else if (this.keys.d.pressed) { this.animate(48) }
+
+    else if (this.keys.w.pressed) {
+      this.animate(72)
+    }
+    else if (this.keys.s.pressed) {
+      this.animate(0)
+    }
+    else {
+      this.frame = 0
+      this.row = 0
+    }
+  }
+
+  animate(row: number) {
+    this.row = row
+
+    this.elapsedFrames++
+
+    if (this.elapsedFrames % this.buffer === 0)
+      this.frame++
+
+    if (this.frame === this.frames)
+      this.frame = 0
   }
 
   currenctPos() {
@@ -66,8 +104,8 @@ export default class Player extends Entity {
     if (this.position.y <= 0)
       this.position.y = 0
 
-    if (this.position.y >= 128 - this.width)
-      this.position.y = 128 - this.width
+    if (this.position.y >= 128 - this.height)
+      this.position.y = 128 - this.height
   }
 
   listener() {

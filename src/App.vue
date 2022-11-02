@@ -4,7 +4,7 @@ import { gameLoop } from './engine/Engine'
 import Entity from './engine/Entity'
 import Player from './engine/Player'
 
-let gameObjects: Array<Entity>
+let gameObjects: Array<Entity | Player>
 let context: CanvasRenderingContext2D
 const canvasEl = ref<HTMLCanvasElement>()
 
@@ -12,32 +12,34 @@ function createWorld() {
   gameObjects = [
     new Entity({
       position: { x: 70, y: 40 },
-      width: 16,
-      height: 16,
+      width: 18,
+      height: 24,
       context,
-      row: (0 * 16),
+      row: (0 * 18),
       frame: 0,
-      src: 'src/assets/sprite.png',
+      src: 'src/assets/my-spritesheet.png',
 
     }),
     new Entity({
       position: { x: 47, y: 20 },
-      width: 16,
-      height: 16,
+      width: 19,
+      height: 24,
       context,
-      row: (0 * 16),
+      row: (0 * 24),
       frame: 0,
-      src: 'src/assets/sprite.png',
+      src: 'src/assets/my-spritesheet.png',
 
     }),
     new Player({
       position: { x: 10, y: 10 },
-      width: 16,
-      height: 16,
+      width: 18,
+      height: 24,
       context,
-      row: (0 * 16),
+      row: (0 * 24),
       frame: 0,
-      src: 'src/assets/sprite.png',
+      frames: 4,
+      buffer: 40,
+      src: 'src/assets/my-spritesheet.png',
     }),
   ]
 }

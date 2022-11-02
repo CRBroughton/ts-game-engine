@@ -105,8 +105,8 @@ export function detectCollisions(objects: Array<Entity | Player>) {
         const diffx = obj1.normalised.x - obj2.normalised.x
         const diffy = obj1.normalised.y - obj2.normalised.y
 
-        const depthX = diffx > 0 ? 16 - diffx : -16 - diffx
-        const depthY = diffy > 0 ? 16 - diffy : -16 - diffy
+        const depthX = diffx > 0 ? 18 - diffx : -18 - diffx
+        const depthY = diffy > 0 ? 24 - diffy : -24 - diffy
 
         if (Math.abs(depthX) < Math.abs(depthY)) {
           if (depthX > 0) {
