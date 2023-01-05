@@ -14,6 +14,11 @@ interface Keys {
 
 export default class Player extends Entity {
   keys: Keys
+  held: string
+  elapsedFrames: number
+  currentframe: number
+  buffer: any
+  frames: number | undefined
   constructor(config: SpriteConfig) {
     super(config)
 
@@ -33,9 +38,16 @@ export default class Player extends Entity {
         pressed: false,
       },
     }
+
+    this.held = ''
+    this.elapsedFrames = 0
+    this.currentframe = 0
+    this.buffer = config.buffer
+    this.frames = config.frames
   }
 
   update() {
+    this.updateSprite()
     this.controls()
     this.currenctPos()
     this.wallCollision()
@@ -44,6 +56,35 @@ export default class Player extends Entity {
       x: this.position.x + this.width / 2,
       y: this.position.y + this.height / 2,
     }
+  }
+
+  updateSprite() {
+    if (this.keys.a.pressed) { this.animate(24) }
+
+    else if (this.keys.d.pressed) { this.animate(48) }
+
+    else if (this.keys.w.pressed) {
+      this.animate(72)
+    }
+    else if (this.keys.s.pressed) {
+      this.animate(0)
+    }
+    else {
+      this.frame = 0
+      this.row = 0
+    }
+  }
+
+  animate(row: number) {
+    this.row = row
+
+    this.elapsedFrames++
+
+    if (this.elapsedFrames % this.buffer === 0)
+      this.frame++
+
+    if (this.frame === this.frames)
+      this.frame = 0
   }
 
   currenctPos() {
@@ -63,8 +104,8 @@ export default class Player extends Entity {
     if (this.position.y <= 0)
       this.position.y = 0
 
-    if (this.position.y >= 128 - this.width)
-      this.position.y = 128 - this.width
+    if (this.position.y >= 128 - this.height)
+      this.position.y = 128 - this.height
   }
 
   listener() {
@@ -72,19 +113,32 @@ export default class Player extends Entity {
       switch (event.key) {
         case 'a':
         case 'ArrowLeft':
-          this.keys.a.pressed = true
+          if (!this.held) {
+            this.keys.a.pressed = true
+            this.held = event.key
+          }
           break
         case 'd':
         case 'ArrowRight':
-          this.keys.d.pressed = true
+          if (!this.held) {
+            this.keys.d.pressed = true
+            this.held = event.key
+          }
           break
         case 'w':
         case 'ArrowUp':
-          this.keys.w.pressed = true
+          if (!this.held) {
+            this.keys.w.pressed = true
+            this.held = event.key
+          }
           break
         case 's':
         case 'ArrowDown':
-          this.keys.s.pressed = true
+          if (!this.held) {
+            this.keys.s.pressed = true
+            this.held = event.key
+          }
+          break
       }
     })
 
@@ -93,18 +147,23 @@ export default class Player extends Entity {
         case 'a':
         case 'ArrowLeft':
           this.keys.a.pressed = false
+          this.held = ''
           break
         case 'd':
         case 'ArrowRight':
           this.keys.d.pressed = false
+          this.held = ''
           break
         case 'w':
         case 'ArrowUp':
           this.keys.w.pressed = false
+          this.held = ''
           break
         case 's':
         case 'ArrowDown':
           this.keys.s.pressed = false
+          this.held = ''
+          break
       }
     })
   }
@@ -113,16 +172,16 @@ export default class Player extends Entity {
     this.vx = 0
     this.vy = 0
 
-    if (this.keys.d.pressed)
+    if (this.keys.d.pressed && this.collidingSide !== 'right')
       this.vx = 1
 
-    else if (this.keys.a.pressed)
+    if (this.keys.a.pressed && this.collidingSide !== 'left')
       this.vx = -1
 
-    else if (this.keys.w.pressed)
+    if (this.keys.w.pressed && this.collidingSide !== 'top')
       this.vy = -1
 
-    else if (this.keys.s.pressed)
+    if (this.keys.s.pressed && this.collidingSide !== 'bottom')
       this.vy = 1
   }
 }

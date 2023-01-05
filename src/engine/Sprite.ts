@@ -13,7 +13,7 @@ export default class Sprite extends GameObject {
     this.image = new Image()
     this.image.src = config.src
     this.row = config.row
-    this.frame = 0
+    this.frame = config.frame
     this.src = config.src
   }
 

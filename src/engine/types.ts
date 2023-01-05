@@ -13,8 +13,10 @@ export interface SpriteType {
   context: CanvasRenderingContext2D
   row: number
   frame: number
+  frames?: number
   src: string
   position: Position
+  buffer?: number
 }
 
 export type SpriteConfig = SpriteType & GameObjectConfig
